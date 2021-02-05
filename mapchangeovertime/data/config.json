@@ -1,0 +1,23 @@
+{"ons":{
+"maptitle": "European coronavirus deaths by region over time",
+"varcolour": ["#9ecae1", "#fdd0a2", "#f16913", "#a63603", "#53200a"],
+"varlabels": [],
+"timeload": 3,
+"dateParse": "%d/%m/%Y",
+"dateFormat": "%b %e",
+"varunit": "% difference from expected mortality (all deaths)",
+"displaydecimals": 0,
+"legenddecimals": 0,
+"breaks": [-100,30,60,90,150,600],
+"dropticks": false,
+"numberBreaks": 5,
+"sourcetext": "Office for National Statistics, National Records of Scotland, Northern Ireland Statistics and Research Agency, Eurostat",
+"timelineLabelsDT":["2002","2004","2006","2008","2010"],
+"average": [[-5.99344678446744, 	-5.32905833526729, 	-8.44668194007867, 	-14.6587058947416, 	-11.5059384772987, 	-14.8526205766713, 	-12.4521125163124, 	-12.0735905973597, 	-8.79164684451513, 	-10.9786316905103, 	-6.59320116231036, 	-4.58208091031482, 	4.69357368623101, 	53.0222470556732, 	71.9588124386894, 	107.600650929198, 	105.123468396234, 	72.2282517961463, 	25.3010704859507, 	37.4016044809204, 	18.1454342362526, 	12.1801238597409, 	1.56327727286215, 	1.38574970158229]],
+"averageText":"England",
+"keyHeight" : 520,
+"keyMargin": {
+  "top": 150,
+  "right": 70
+}
+}}
