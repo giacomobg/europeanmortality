@@ -842,7 +842,7 @@
 
     /* Button styles */
 
-    .btn {
+    /* .btn {
       font-family: "Open Sans", Helvetica, Arial, sans-serif;
       font-weight: 400;
       font-size: 14px;
@@ -907,7 +907,7 @@
     .btn--neutral-disabled {
       background-color: #eee;
       opacity: 0.2;
-    }
+    } */
 
     button {
       cursor: pointer;
@@ -960,7 +960,7 @@
       padding: 6px 0 10px 16px;
     }
 
-    .btn--primary {
+    /* .btn--primary {
       background-color: #0F8243;
       color: #fff;
     }
@@ -1030,10 +1030,13 @@
     .btn--neutral-disabled {
       background-color: #eee;
       opacity: 0.2;
-    }
+    } */
 
-    button {
-      cursor: pointer;
+    .timeControlButtons {
+      background: none;
+      border: none;
+      color: #206095;
+      font-size: 16px;
     }
   </style>
 
@@ -1065,14 +1068,14 @@
 
       <div id='timePeriodDesktop'></div>
       <div id='controls' style="text-align: center;">
-        <button id="back" class="btn btn--neutral btn--bold btn--large">
-              <img src="images/rewind.png" height="20" width="20">
+        <button id="back" class="timeControlButtons">
+              <span class="glyphicon glyphicon-chevron-left">
           </button>
-        <button id="play" class="btn btn--primary-alternative btn--bold btn--large">
-              <img id="playImage" src="images/play.png" height="20" width="10">
+        <button id="play" class="timeControlButtons">
+              <span class="glyphicon">
           </button>
-        <button id="forward" class="btn btn--neutral btn--bold btn--large">
-              <img src="images/fast-forward.png" height="20" width="20">
+        <button id="forward" class="timeControlButtons">
+              <span class="glyphicon glyphicon-chevron-right">
           </button>
       </div>
       <div id='keydiv'></div>
