@@ -553,10 +553,17 @@ map.on('zoom', function() {console.log(map.getZoom())})
       animating = setInterval(function() {
         fwd_animate()
       }, 1500);
-      d3.selectAll(".btn--neutral").classed("btn--neutral-disabled", true)
 
-      d3.select("#playImage").attr("src", "images/pause.svg");
+      // disable forward and back buttons
+      // d3.selectAll(".btn--neutral").classed("btn--neutral-disabled", true)
 
+      // replace play image with pause
+      // d3.select("#playImage").attr("src", "images/pause.svg");
+      d3.select("#play").select("span")
+        .classed("glyphicon-play", false)
+        .classed("glyphicon-pause", true)
+
+      // switch id/class of play to pause
       d3.select("#play").attr("id", "pause");
 
       d3.select("#pause").on("click", function() {
@@ -565,11 +572,13 @@ map.on('zoom', function() {console.log(map.getZoom())})
           'selected': 'pause'
         })
 
+        d3.select("#pause").select("span")
+          .classed("glyphicon-pause", false)
+          .classed("glyphicon-play", true);
         d3.select("#pause").attr("id", "play")
-        d3.select("#playImage").attr("src", "images/play.svg");
         setButtons();
         clearInterval(animating);
-        d3.selectAll(".btn--neutral").classed("btn--neutral-disabled", false)
+        // d3.selectAll(".btn--neutral").classed("btn--neutral-disabled", false)
       });
 
     } // end onplay
