@@ -631,6 +631,73 @@ map.on('zoom', function() {console.log(map.getZoom())})
       timePeriod.text(dateformat(dateparse(variables[a])))
     }
 
+    // time slider bits
+
+    var parseTime = d3.timeParse("%d/%m/%Y")
+    var sliderSimple = d3
+      .sliderBottom()
+      .min(parseTime("01/03/2020"))
+      .max(parseTime("01/01/2021"))
+      // .width(parseInt(d3.select('body').style("width"))-210)
+      // .default(d3.min(headingsParsed))
+      // .displayFormat(formatDate)
+      .marks([parseTime("01/03/2020"), parseTime("01/01/2021")])
+      .handle(
+        d3.symbol()
+          .type(d3.symbolCircle)
+          .size(500)
+      )
+      .fill("#206595");
+
+      // if (parseInt(d3.select('body').style('width')) > 1500) {
+        //console.log("wide")
+        // sliderSimple
+        //   .tickFormat(formatDate)
+        //   .tickValues(headingsParsed);
+      // }else{
+      //   //console.log("thin")
+      //   sliderSimple
+      //     .tickFormat(d3.timeFormat("%b"))
+      //     .ticks(5);
+      // }
+
+    sliderSimple.on('onchange', function(val) {
+      updateFeatureState(headingsParsed.indexOf(val) + 1)
+      displayedData = (headingsParsed.indexOf(val) + 1)
+      d3.select("#keydate").text(headings[displayedData])
+      //document.getElementById("value-simple").value=d3.format('.0f')(val)
+    });
+
+    var gSimple = d3
+    .select('div#slider-simple')
+    .append('svg')
+    // .attr('width', parseInt(d3.select('#').style("width"))-140)
+    .attr('height', 75)
+    .append('g')
+    .attr('transform', 'translate(30,20)');
+
+    gSimple.call(sliderSimple);
+
+    //Time slider accessibility
+
+    // d3.select('.playbackcontrols').on('keydown',function(){
+    //   //console.log("keypress")
+    //
+    //   if (d3.event.key=='ArrowRight' || d3.event.key=='ArrowUp') {
+    //     changeDate("forward")
+    //   }
+    //   if (d3.event.key=='ArrowLeft' || d3.event.key=='ArrowDown') {
+    //     changeDate("back")
+    //   }
+    //   if (d3.event.key=='PageUp' || d3.event.key=='End') {
+    //     changeDate("end")
+    //   }
+    //   if (d3.event.key=='PageDown' || d3.event.key=='Home') {
+    //     changeDate("start")
+    //   }
+    //
+    // })
+
     function onselect() {
       b = $(".dropdown").val();
       onchange(b);
