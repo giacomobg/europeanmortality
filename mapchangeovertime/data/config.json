@@ -18,6 +18,7 @@
 "keyHeight" : 520,
 "keyMargin": {
   "top": 150,
-  "right": 70
+  "right": 70,
+  "left": 45
 }
 }}

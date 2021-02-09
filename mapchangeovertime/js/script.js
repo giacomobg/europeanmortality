@@ -591,7 +591,7 @@ map.on('zoom', function() {console.log(map.getZoom())})
         a = 0;
       }
 
-      animate()
+      updateVisuals()
     }
 
     function rev_animate() {
@@ -602,10 +602,10 @@ map.on('zoom', function() {console.log(map.getZoom())})
         a = variables.length - 1;
       }
 
-      animate()
+      updateVisuals()
     }
 
-    function animate() {
+    function updateVisuals() {
 
       setRates(thisdata);
       updateLayers();
@@ -631,27 +631,29 @@ map.on('zoom', function() {console.log(map.getZoom())})
       timePeriod.text(dateformat(dateparse(variables[a])))
     }
 
-    // time slider bits
+    // time slider
 
     var parseTime = d3.timeParse("%d/%m/%Y")
     var sliderSimple = d3
-      .sliderBottom()
-      .min(parseTime("01/03/2020"))
-      .max(parseTime("01/01/2021"))
+      .sliderBottom(x)
+      // .min(parseTime("01/03/2020"))
+      // .max(parseTime("01/01/2021"))
       // .width(parseInt(d3.select('body').style("width"))-210)
-      // .default(d3.min(headingsParsed))
+      // .default(parseTime("01/03/2020"))
       // .displayFormat(formatDate)
-      .marks([parseTime("01/03/2020"), parseTime("01/01/2021")])
+      // .marks([parseTime("01/03/2020"), parseTime("01/01/2021")])
       .handle(
         d3.symbol()
           .type(d3.symbolCircle)
           .size(500)
       )
-      .fill("#206595");
+      .fill("#206095")
+      .ticks([]);
 
       // if (parseInt(d3.select('body').style('width')) > 1500) {
         //console.log("wide")
         // sliderSimple
+          // .ticks([])
         //   .tickFormat(formatDate)
         //   .tickValues(headingsParsed);
       // }else{
@@ -662,10 +664,8 @@ map.on('zoom', function() {console.log(map.getZoom())})
       // }
 
     sliderSimple.on('onchange', function(val) {
-      updateFeatureState(headingsParsed.indexOf(val) + 1)
-      displayedData = (headingsParsed.indexOf(val) + 1)
-      d3.select("#keydate").text(headings[displayedData])
-      //document.getElementById("value-simple").value=d3.format('.0f')(val)
+      // change value of a
+      updateVisuals()
     });
 
     var gSimple = d3
@@ -674,7 +674,7 @@ map.on('zoom', function() {console.log(map.getZoom())})
     // .attr('width', parseInt(d3.select('#').style("width"))-140)
     .attr('height', 75)
     .append('g')
-    .attr('transform', 'translate(30,20)');
+    .attr('transform', 'translate(' + dvc.keyMargin.left + ',20)');
 
     gSimple.call(sliderSimple);
 
@@ -1191,7 +1191,7 @@ map.on('zoom', function() {console.log(map.getZoom())})
         g.call(yAxis).append("text");
 
         svgkey.append("g").attr("id", "timeaxis")
-          .attr("transform", "translate(45," + (10 + keyheight) + ")")
+          .attr("transform", "translate(" + dvc.keyMargin.left + "," + (10 + keyheight) + ")")
           // .attr("font-weight", "600")
           .style("font-family", "'open sans'")
           .style("font-size", "12px")
