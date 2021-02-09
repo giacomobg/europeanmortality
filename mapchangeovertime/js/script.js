@@ -53,6 +53,8 @@ if (Modernizr.webgl) {
       a = dvc.timeload;
     }
 
+    console.log('Setting a');
+    console.log(a)
 
     //BuildNavigation
     if (dvc.varlabels.length > 1) {
@@ -566,22 +568,25 @@ map.on('zoom', function() {console.log(map.getZoom())})
       // switch id/class of play to pause
       d3.select("#play").attr("id", "pause");
 
-      d3.select("#pause").on("click", function() {
-        dataLayer.push({
-          'event': 'playButton',
-          'selected': 'pause'
-        })
-
-        d3.select("#pause").select("span")
-          .classed("glyphicon-pause", false)
-          .classed("glyphicon-play", true);
-        d3.select("#pause").attr("id", "play")
-        setButtons();
-        clearInterval(animating);
-        // d3.selectAll(".btn--neutral").classed("btn--neutral-disabled", false)
-      });
-
+      d3.select("#pause").on("click", onPause)
     } // end onplay
+
+    function onPause() {
+      // dataLayer.push({
+      //   'event': 'playButton',
+      //   'selected': 'pause'
+      // })
+
+      // replace pause symbol with play symbol
+      d3.select("#pause").select("span")
+        .classed("glyphicon-pause", false)
+        .classed("glyphicon-play", true);
+      d3.select("#pause").attr("id", "play")
+      // make symbols clickable - TODO is this required?
+      setButtons();
+      clearInterval(animating);
+    };
+
 
     function fwd_animate() {
       // go forwards in time
@@ -591,7 +596,8 @@ map.on('zoom', function() {console.log(map.getZoom())})
         a = 0;
       }
 
-      updateVisuals()
+      moveSliderToVal();
+      updateVisuals();
     }
 
     function rev_animate() {
@@ -602,11 +608,17 @@ map.on('zoom', function() {console.log(map.getZoom())})
         a = variables.length - 1;
       }
 
-      updateVisuals()
+      moveSliderToVal();
+      updateVisuals();
+    }
+
+    function moveSliderToVal() {
+      sliderSimple.silentValue(a);
     }
 
     function updateVisuals() {
-
+      console.log('Newly set a:')
+      console.log(a);
       setRates(thisdata);
       updateLayers();
       updateTimeLabel();
@@ -621,7 +633,8 @@ map.on('zoom', function() {console.log(map.getZoom())})
       if (mobile == false) {
         d3.select("#currPoint2")
           .transition()
-          .duration(300)
+          .ease(d3.easeQuadOut)
+          .duration(200)
           .attr("cx", x(dateparse(variables[a])))
           .attr("cy", y(dvc.average[0][a]));
       }
@@ -633,13 +646,22 @@ map.on('zoom', function() {console.log(map.getZoom())})
 
     // time slider
 
+console.log(variables)
     var parseTime = d3.timeParse("%d/%m/%Y")
+    var sliderScale = d3.scaleLinear()
+      .domain([0, variables.length-1])
+      .range([0, keywidth - dvc.keyMargin.right]);
     var sliderSimple = d3
-      .sliderBottom(x)
+      .sliderBottom(sliderScale)
+      // .min(0)
+      // .max(variables.length)
+      .displayValue(false)
+      .step(1)
+      // .marks(d3.timeWeek.range(timeRange[0], timeRange[1]))
       // .min(parseTime("01/03/2020"))
       // .max(parseTime("01/01/2021"))
       // .width(parseInt(d3.select('body').style("width"))-210)
-      // .default(parseTime("01/03/2020"))
+      .default(a)
       // .displayFormat(formatDate)
       // .marks([parseTime("01/03/2020"), parseTime("01/01/2021")])
       .handle(
@@ -664,8 +686,12 @@ map.on('zoom', function() {console.log(map.getZoom())})
       // }
 
     sliderSimple.on('onchange', function(val) {
-      // change value of a
-      updateVisuals()
+      // a is the master variable for the current timepoint
+      console.log('SLIDER VAL:')
+      console.log(a)
+      a = val;
+      onPause();
+      updateVisuals();
     });
 
     var gSimple = d3
@@ -1132,8 +1158,9 @@ map.on('zoom', function() {console.log(map.getZoom())})
           .range([keyheight, dvc.keyMargin.top]); /*range for pixels*/
 
         // Set up scales for chart
+        timeRange = [dateparse(variables[0]), dateparse(variables[variables.length - 1])]
         x = d3.scaleLinear()
-          .domain([dateparse(variables[0]), dateparse(variables[variables.length - 1])])
+          .domain(timeRange)
           .range([0, keywidth - dvc.keyMargin.right]);
 
 
