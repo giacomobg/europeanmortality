@@ -857,7 +857,8 @@ console.log(variables)
             }
           })
           .transition()
-          .duration(300)
+          .ease(d3.easeQuadOut)
+          .duration(200)
           .attr("y1", function() {
             if (!isNaN(rateById[code])) {
               return y(rateById[code])
@@ -886,7 +887,8 @@ console.log(variables)
           .style("opacity", 1)
           .attr("text-anchor", "middle")
           .transition()
-          .duration(300)
+          .ease(d3.easeQuadOut)
+          .duration(200)
           .attr("x", function() {
             if (!isNaN(rateById[code])) {
               console.log(x(dateparse(variables[a])))
@@ -939,7 +941,8 @@ console.log(variables)
             }
           })
           .transition()
-          .duration(300)
+          .ease(d3.easeQuadOut)
+          .duration(200)
           .attr("cx", x(dateparse(variables[a])))
           .attr("cy", function() {
             if (!isNaN(rateById[code])) {
